@@ -1,12 +1,7 @@
 version: '3'
 
-networks:
-  default:
-    external:
-      name: dnaiq-net
-
 services: 
-  dnaiq-api:
+  client_and_api:
     build:
       dockerfile: Dockerfile.prod
       context: ./
