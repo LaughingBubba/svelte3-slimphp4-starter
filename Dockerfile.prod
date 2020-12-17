@@ -1,0 +1,17 @@
+FROM composer AS composer
+
+# copying the source directory and install the dependencies with composer
+COPY composer.json /app
+
+# run composer install to install the dependencies
+RUN composer install \
+  --optimize-autoloader \
+  --no-interaction 
+#  --no-progress
+
+# continue stage build with the desired image and copy the source including the
+# dependencies downloaded by composer
+FROM trafex/alpine-nginx-php7
+COPY --chown=nginx --from=composer /app /var/www
+COPY --chown=nginx ./public /var/www/html
+COPY --chown=nginx ./src/server /var/www/src/server
